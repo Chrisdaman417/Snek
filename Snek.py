@@ -24,7 +24,7 @@ class App:
                 self.background.convert()
                 self.screen.blit(self.background, (int(self.width / 2 / 2),int(self.height / 2 / 2)))
             if event.key == pygame.K_SPACE:
-                self.background.fill((0,255,0))
+                self.background.fill((0,255,255))
                 self.background.convert()
                 self.screen.blit(self.background, (int(self.width / 2 / 2),int(self.height / 2 / 2)))
             if event.key == pygame.K_UP:
