@@ -37,21 +37,21 @@ class App:
             if event.key == pygame.K_LEFT:
                 box.Surface.fill((0,0,0))
                 self.screen.blit(box.Surface, (box.x, box.y))
-                box.Surface.fill((0,255,255))
+                box.Surface.fill((255,0,0))
                 box.x -= 10
                 box.Surface.convert()
                 self.screen.blit(box.Surface, (box.x, box.y))
             if event.key == pygame.K_RIGHT:
                 box.Surface.fill((0,0,0))
                 self.screen.blit(box.Surface, (box.x, box.y))
-                box.Surface.fill((255,0,255))
+                box.Surface.fill((255,0,0))
                 box.x += 10
                 box.Surface.convert()
                 self.screen.blit(box.Surface, (box.x, box.y))
             if event.key == pygame.K_DOWN:
                 box.Surface.fill((0,0,0))
                 self.screen.blit(box.Surface, (box.x, box.y))
-                box.Surface.fill((255,255,0))
+                box.Surface.fill((255,0,0))
                 box.y += 10
                 box.Surface.convert()
                 self.screen.blit(box.Surface, (box.x, box.y))
