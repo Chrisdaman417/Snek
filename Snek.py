@@ -44,7 +44,9 @@ class App:
     def on_loop(self):
         if box.moving == True:
             if pygame.time.get_ticks() >= self.gameTick + 250:
+                box.tailMe(box2)
                 box.move()
+                box2.gen()
                 self.gameTick = pygame.time.get_ticks()
     def on_render(self):
         pygame.display.update()
@@ -74,35 +76,47 @@ class segment:
 
     def move(self):
         if self.dir == 0:
-            box.Surface.fill((0,0,0))
-            theApp.screen.blit(box.Surface, (box.x, box.y))
-            box.Surface.fill((255,0,0))
-            box.x -= 10
-            box.Surface.convert()
-            theApp.screen.blit(box.Surface, (box.x, box.y))
+            self.Surface.fill((0,0,0))
+            theApp.screen.blit(self.Surface, (self.x, self.y))
+            self.Surface.fill((255,0,0))
+            self.x -= 10
+            self.Surface.convert()
+            theApp.screen.blit(box.Surface, (self.x, self.y))
         if self.dir == 1:
-            box.Surface.fill((0,0,0))
-            theApp.screen.blit(box.Surface, (box.x, box.y))
-            box.Surface.fill((255,0,0))
-            box.y -= 10
-            box.Surface.convert()
-            theApp.screen.blit(box.Surface, (box.x, box.y))
+            self.Surface.fill((0,0,0))
+            theApp.screen.blit(box.Surface, (self.x, self.y))
+            self.Surface.fill((255,0,0))
+            self.y -= 10
+            self.Surface.convert()
+            theApp.screen.blit(self.Surface, (self.x, self.y))
         if self.dir == 2:
-            box.Surface.fill((0,0,0))
-            theApp.screen.blit(box.Surface, (box.x, box.y))
-            box.Surface.fill((255,0,0))
-            box.x += 10
-            box.Surface.convert()
-            theApp.screen.blit(box.Surface, (box.x, box.y))
+            self.Surface.fill((0,0,0))
+            theApp.screen.blit(self.Surface, (self.x, self.y))
+            self.Surface.fill((255,0,0))
+            self.x += 10
+            self.Surface.convert()
+            theApp.screen.blit(self.Surface, (self.x, self.y))
         if self.dir == 3:
-            box.Surface.fill((0,0,0))
-            theApp.screen.blit(box.Surface, (box.x, box.y))
-            box.Surface.fill((255,0,0))
-            box.y += 10
-            box.Surface.convert()
-            theApp.screen.blit(box.Surface, (box.x, box.y))
+            self.Surface.fill((0,0,0))
+            theApp.screen.blit(self.Surface, (self.x, self.y))
+            self.Surface.fill((255,0,0))
+            self.y += 10
+            self.Surface.convert()
+            theApp.screen.blit(self.Surface, (self.x, self.y))
+
+    def tailMe(self,segment):
+        segment.x = self.x
+        segment.y = self.y
+        segment.dir = self.dir
+        self.gen()
+
+    def gen(self):
+        self.Surface.fill((255,0,0))
+        self.Surface.convert()
+        theApp.screen.blit(box.Surface, (box.x, box.y))
 
 if __name__ == "__main__":
     theApp = App()
     box = segment()
+    box2 = segment()
     theApp.on_execute()
