@@ -40,7 +40,9 @@ class snake:
     def __init__(self):
         self.body = []
         self.moving = True
+        self.setSnake()
 
+    def setSnake(self):
         # First 3 Segments
         self.body.append(segment())
         self.body[0].x = 20
@@ -203,6 +205,12 @@ class App:
         self.background.convert()
         self._running = True
 
+    def resetGame(self):
+        snekington.body = []
+        snekington.setSnake()
+        snekington.moving = True
+        food1.placeFood()
+
     # Input Block
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -237,6 +245,14 @@ class App:
 
     # Calculations Block
     def on_loop(self):
+        # End State Check
+        if snekington.moving == False:
+            self.check = pygame.event.wait()
+            if self.check.key == pygame.K_ESCAPE:
+                self._running = False
+            if self.check.key == pygame.K_SPACE:
+                self.resetGame()
+        
         # is game valid
         if snekington.moving == True:
 
