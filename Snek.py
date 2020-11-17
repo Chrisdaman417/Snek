@@ -14,7 +14,7 @@ class segment:
     # Display Segment
     def gen(self):
         if snekington.moving == True:
-            self.Surface.fill((255,0,0))
+            self.Surface.fill((0,255,0))
         else:
             self.Surface.fill((255,0,255))
         self.Surface.convert()
@@ -33,7 +33,7 @@ class apple:
         self.y = round(random.randint(0,theApp.height-10)/10)*10
 
     def genFood(self):
-        self.Surface.fill((255,255,0))
+        self.Surface.fill((255,0,0))
         self.Surface.convert()
         theApp.screen.blit(self.Surface, (self.x, self.y))
 
@@ -192,13 +192,15 @@ class App:
         self._running = True
         self.screen = None
         self.gameTick = 0
-        self.size = self.width , self.height = 600 , 600
+        self.width = 320
+        self.height = 320
+        self.size = self.height , self.width
 
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self.background = pygame.Surface((self.width,self.height))
-        self.background.fill((0,0,0))
+        self.background.fill((255,255,255))
         self.background.convert()
         self._running = True
 
