@@ -24,16 +24,17 @@ class apple:
     def __init__(self):
         self.width = 10
         self.height = 10
-        self.x = round(random.randint(0,theApp.width-10)/10)*10
-        self.y = round(random.randint(0,theApp.height-10)/10)*10
         self.Surface = pygame.Surface((self.width, self.height))
 
     # Spawn apple in random location
     def placeFood(self):
+        self.x = round(random.randint(0,theApp.width-10)/10)*10
+        self.y = round(random.randint(0,theApp.height-10)/10)*10
+
+    def genFood(self):
         self.Surface.fill((255,255,0))
         self.Surface.convert()
         theApp.screen.blit(self.Surface, (self.x, self.y))
-
 
 class snake:
     def __init__(self):
@@ -128,6 +129,11 @@ class snake:
                 if (self.body[0].x-10 == self.body[i].x) and (self.body[0].y == self.body[i].y):
                     self.moving = False
                     return
+            # Apple Check
+            if (self.body[0].x-10 == apple.x) and (self.body[0].y == apple.y):
+                apple.placeFood()
+                self.grow()
+                return
 
         # Check move up
         if self.body[0].dir == 1:
@@ -140,6 +146,11 @@ class snake:
                 if (self.body[0].x == self.body[i].x) and (self.body[0].y-10 == self.body[i].y):
                     self.moving = False
                     return
+            # Apple Check
+            if (self.body[0].x == apple.x) and (self.body[0].y-10 == apple.y):
+                apple.placeFood()
+                self.grow()
+                return
 
         # Check move right
         if self.body[0].dir == 2:
@@ -152,6 +163,11 @@ class snake:
                 if (self.body[0].x+10 == self.body[i].x) and (self.body[0].y == self.body[i].y):
                     self.moving = False
                     return
+            # Apple Check
+            if (self.body[0].x+10 == apple.x) and (self.body[0].y == apple.y):
+                apple.placeFood()
+                self.grow()
+                return  
 
         # Check move down
         if self.body[0].dir == 3:
@@ -164,12 +180,16 @@ class snake:
                 if (self.body[0].x == self.body[i].x) and (self.body[0].y+10 == self.body[i].y):
                     self.moving = False
                     return
+            # Apple Check
+            if (self.body[0].x == apple.x) and (self.body[0].y+10 == apple.y):
+                apple.placeFood()
+                self.grow()
+                return
 
 class App:
     def __init__(self):
         self._running = True
         self.screen = None
-        self.nofood = True
         self.gameTick = 0
         self.size = self.width , self.height = 600 , 600
 
@@ -212,14 +232,10 @@ class App:
                 else:
                     snekington.body[0].dir = 3
                     snekington.moving = True
-            if event.key == pygame.K_SPACE:
-                snekington.grow()
 
     # Calculations Block
     def on_loop(self):
-        if self.nofood == True:
-            food1.placeFood()
-            self.nofood == False
+        food1.genFood()
         if snekington.moving == True:
             if pygame.time.get_ticks() >= self.gameTick + 250:
                 self.screen.blit(self.background,(0,0))
@@ -248,4 +264,5 @@ if __name__ == "__main__":
     theApp = App()
     snekington = snake()
     food1 = apple()
+    food1.placeFood()
     theApp.on_execute()
