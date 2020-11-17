@@ -24,6 +24,7 @@ class apple:
     def __init__(self):
         self.width = 10
         self.height = 10
+        self.on = 0
         self.Surface = pygame.Surface((self.width, self.height))
 
     # Spawn apple in random location
@@ -235,13 +236,29 @@ class App:
 
     # Calculations Block
     def on_loop(self):
-        food1.genFood()
+        # is game valid
         if snekington.moving == True:
-            if pygame.time.get_ticks() >= self.gameTick + 250:
-                self.screen.blit(self.background,(0,0))
-                snekington.move()
-                self.gameTick = pygame.time.get_ticks()
 
+            # Time Check
+            if pygame.time.get_ticks() >= self.gameTick + 100:
+
+                # Refresh Stage
+                self.screen.blit(self.background,(0,0))
+
+                # Apple Blink
+                if food1.on == 3:
+                    food1.on = 0
+                else:
+                    food1.genFood()
+                    food1.on += 1
+
+                # Move and Render Snake
+                snekington.move()
+
+                # Set Time
+                self.gameTick = pygame.time.get_ticks()
+        else:
+            food1.genFood()
     # Render Block
     def on_render(self):
         pygame.display.update()
