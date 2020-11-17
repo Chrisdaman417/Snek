@@ -12,7 +12,10 @@ class segment:
         self.Surface = pygame.Surface((self.width, self.height))
 
     def gen(self):
-        self.Surface.fill((255,0,0))
+        if snekington.moving == True:
+            self.Surface.fill((255,0,0))
+        else:
+            self.Surface.fill((255,0,255))
         self.Surface.convert()
         theApp.screen.blit(self.Surface, (self.x, self.y))
 
@@ -33,16 +36,16 @@ class apple:
 class snake:
     def __init__(self):
         self.body = []
-        self.moving = False
+        self.moving = True
         self.body.append(segment())
         self.body[0].x = 20
-        self.body[0].y = 360
+        self.body[0].y = round((theApp.height/2)/10)*10
         self.body.append(segment())
         self.body[0].x = 10
-        self.body[0].y = 360
+        self.body[0].y = round((theApp.height/2)/10)*10
         self.body.append(segment())
         self.body[0].x = 0
-        self.body[0].y = 360
+        self.body[0].y = round((theApp.height/2)/10)*10
 
     def tailMe(self):
         self.body[0].x = self.body[1].x
@@ -51,34 +54,87 @@ class snake:
 
     def move(self):
         if self.body[0].dir == 0:
+            self.crash(food1)
+            if self.moving == False:
+                self.genSnake()
+                return
             self.body.insert(0,segment())
             self.tailMe()
             self.body.pop()
             self.body[0].x -= 10
 
         elif self.body[0].dir == 1:
+            self.crash(food1)
+            if self.moving == False:
+                self.genSnake()
+                return
             self.body.insert(0,segment())
             self.tailMe()
             self.body.pop()
             self.body[0].y -= 10
 
         elif self.body[0].dir == 2:
+            self.crash(food1)
+            if self.moving == False:
+                self.genSnake()
+                return
             self.body.insert(0,segment())
             self.tailMe()
             self.body.pop()
             self.body[0].x += 10
 
         elif self.body[0].dir == 3:
+            self.crash(food1)
+            if self.moving == False:
+                self.genSnake()
+                return
             self.body.insert(0,segment())
             self.tailMe()
             self.body.pop()
             self.body[0].y += 10
+        self.genSnake()
 
+    def genSnake(self):
         for i in range(len(self.body)):
             self.body[i].gen()
 
     def grow(self):
         self.body.append(segment())
+    
+    def crash(self, apple):
+        if self.body[0].dir == 0:
+            if (self.body[0].x-10 == -10):
+                    self.moving = False
+                    return
+            for i in range(len(self.body)):
+                if (self.body[0].x-10 == self.body[i].x) and (self.body[0].y == self.body[i].y):
+                    self.moving = False
+                    return
+        if self.body[0].dir == 1:
+            if (self.body[0].y-10 == -10):
+                    self.moving = False
+                    return
+            for i in range(len(self.body)):
+                if (self.body[0].x == self.body[i].x) and (self.body[0].y-10 == self.body[i].y):
+                    self.moving = False
+                    return
+        if self.body[0].dir == 2:
+            for i in range(len(self.body)):
+                if (self.body[0].x+10 == theApp.width):
+                    self.moving = False
+                    return
+                if (self.body[0].x+10 == self.body[i].x) and (self.body[0].y == self.body[i].y):
+                    self.moving = False
+                    return
+        if self.body[0].dir == 3:
+            for i in range(len(self.body)):
+                if (self.body[0].y+10 == theApp.height):
+                    self.moving = False
+                    return
+                if (self.body[0].x == self.body[i].x) and (self.body[0].y+10 == self.body[i].y):
+                    self.moving = False
+                    return
+
 class App:
     def __init__(self):
         self._running = True
@@ -102,17 +158,29 @@ class App:
             if event.key == pygame.K_ESCAPE:
                 self._running = False
             if event.key == pygame.K_UP:
-                snekington.body[0].dir = 1
-                snekington.moving = True
+                if snekington.body[0].dir == 3:
+                    pass
+                else:
+                    snekington.body[0].dir = 1
+                    snekington.moving = True
             if event.key == pygame.K_LEFT:
-                snekington.body[0].dir = 0
-                snekington.moving = True
+                if snekington.body[0].dir == 2:
+                    pass
+                else:
+                    snekington.body[0].dir = 0
+                    snekington.moving = True        
             if event.key == pygame.K_RIGHT:
-                snekington.body[0].dir = 2
-                snekington.moving = True
+                if snekington.body[0].dir == 0:
+                    pass
+                else:
+                    snekington.body[0].dir = 2
+                    snekington.moving = True
             if event.key == pygame.K_DOWN:
-                snekington.body[0].dir = 3
-                snekington.moving = True
+                if snekington.body[0].dir == 1:
+                    pass
+                else:
+                    snekington.body[0].dir = 3
+                    snekington.moving = True
             if event.key == pygame.K_SPACE:
                 snekington.grow()
 
