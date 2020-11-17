@@ -8,7 +8,6 @@ class segment:
         self.x = -10
         self.y = -10
         self.dir = 2
-        self.full = False
         self.Surface = pygame.Surface((self.width, self.height))
 
     # Display Segment
@@ -189,6 +188,7 @@ class snake:
 
 class App:
     def __init__(self):
+        pygame.display.set_caption("Snekinton's big Journey")
         self._running = True
         self.screen = None
         self.gameTick = 0
@@ -199,8 +199,7 @@ class App:
     def on_init(self):
         pygame.init()
         self.screen = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
-        self.background = pygame.Surface((self.width,self.height))
-        self.background.fill((255,255,255))
+        self.background = pygame.image.load('background.png')
         self.background.convert()
         self._running = True
 
